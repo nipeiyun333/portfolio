@@ -1,89 +1,92 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
 :root {
   --bg: #08080c;
-  --bg2: #0e0e16;
-  --bg3: #16161f;
-  --text: #e8e6e3;
-  --text2: #8a8a92;
+  --surface: #0e0e14;
+  --card: #14141e;
+  --card-border: #1e1e2a;
   --accent: #b85a3a;
-  --accent2: #d47a5a;
-  --gold: #c9a84c;
-  --border: #1e1e2a;
-  --radius: 12px;
-  --radius-lg: 20px;
-  --max-w: 1700px;
-  --font: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --accent-light: #d47a5a;
+  --text: #e8e4dc;
+  --text-secondary: #88808a;
+  --text-muted: #5a5a62;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --max-w: 1100px;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent) transparent;
+  background: var(--bg);
 }
 
 body {
-  font-family: var(--font);
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.7;
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::selection { background: var(--accent); color: #fff; }
 
-/* Grain overlay */
+/* Grain texture overlay */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
 }
 
-/* Section base */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
 .section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 40px;
+  padding: 120px 0;
   position: relative;
 }
 
-.section-inner {
-  width: 100%;
-  max-width: var(--max-w);
-  margin: 0 auto;
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 60px;
+  letter-spacing: -0.5px;
 }
 
-/* Scrollbar for horizontal scroll containers */
-.horizontal-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent) transparent;
-  -webkit-overflow-scrolling: touch;
+.section-title span {
+  color: var(--accent);
 }
 
-.horizontal-scroll::-webkit-scrollbar { height: 3px; }
-.horizontal-scroll::-webkit-scrollbar-track { background: transparent; }
-.horizontal-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+.accent {
+  color: var(--accent);
+}
 
-/* Selection */
-::selection {
-  background: var(--accent);
-  color: white;
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* Smooth reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

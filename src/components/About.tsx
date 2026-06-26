@@ -1,125 +1,106 @@
-import { motion } from 'framer-motion'
 import { portfolio } from '../data/portfolio'
 
 export default function About() {
   return (
-    <div className="section-inner" style={{ padding: '0 60px' }}>
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6 }}
-        style={{
-          fontSize: 'clamp(28px, 3vw, 48px)',
-          fontWeight: 300,
-          letterSpacing: 4,
-          marginBottom: 60,
-          color: '#8a8a92',
-        }}
-      >
-        <span style={{ color: '#b85a3a', fontWeight: 700 }}>about</span> / 关于我
-      </motion.h2>
-
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 80,
-        alignItems: 'start',
-        maxWidth: 1200,
-      }}>
-        {/* Bio text */}
-        <div>
-          {portfolio.bio.map((p, i) => (
-            <motion.p
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              style={{
-                color: '#c8c6c3',
-                fontSize: 15,
-                lineHeight: 1.9,
-                marginBottom: 20,
-                fontWeight: i === 0 ? 400 : 300,
-              }}
-            >
-              {p}
-            </motion.p>
-          ))}
-        </div>
-
-        {/* Stats grid */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 24,
-          }}
-        >
-          {portfolio.stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-              style={{
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.04)',
-                borderRadius: 16,
-                padding: '28px 24px',
-                textAlign: 'center',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div style={{ fontSize: 36, fontWeight: 900, color: '#b85a3a', marginBottom: 8 }}>
-                {stat.value}
-              </div>
-              <div style={{ fontSize: 12, color: '#6a6a72', letterSpacing: 2 }}>
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Social links */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        style={{
-          display: 'flex',
-          gap: 24,
-          marginTop: 60,
-          paddingTop: 40,
-          borderTop: '1px solid rgba(255,255,255,0.04)',
-        }}
-      >
-        {portfolio.socials.map((s, i) => (
-          <a
-            key={i}
-            href={s.href || '#'}
-            target={s.href ? '_blank' : undefined}
-            rel="noreferrer"
-            style={{
-              color: '#6a6a72',
+    <section id="about" className="section" style={{ paddingTop: 160 }}>
+      <div className="container">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 80,
+          alignItems: 'center',
+        }}>
+          {/* Left: Bio */}
+          <div>
+            <p className="reveal" style={{
+              fontFamily: "'Playfair Display', serif",
               fontSize: 13,
-              letterSpacing: 1,
-              textDecoration: 'none',
-              transition: 'color 0.2s',
-            }}
-          >
-            {s.label} / {s.value}
-          </a>
-        ))}
-      </motion.div>
-    </div>
+              color: '#b85a3a',
+              letterSpacing: 4,
+              textTransform: 'uppercase',
+              marginBottom: 20,
+            }}>
+              About
+            </p>
+            <h2 className="reveal" style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(32px, 3.5vw, 48px)',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              marginBottom: 32,
+              letterSpacing: -0.5,
+            }}>
+              用内容讲故事
+              <br />
+              <span style={{ color: '#b85a3a' }}>用AI造工具</span>
+            </h2>
+            {portfolio.bio.map((p, i) => (
+              <p key={i} className="reveal"
+                style={{
+                  color: '#88808a',
+                  fontSize: 15,
+                  lineHeight: 1.9,
+                  marginBottom: 20,
+                }}
+              >
+                {p}
+              </p>
+            ))}
+          </div>
+
+          {/* Right: Stats */}
+          <div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 20,
+            }}>
+              {portfolio.stats.map((stat, i) => (
+                <div key={i} className="reveal"
+                  style={{
+                    background: '#0e0e14',
+                    border: '1px solid #1e1e2a',
+                    borderRadius: 16,
+                    padding: '32px 24px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: 40,
+                    fontWeight: 700,
+                    color: '#b85a3a',
+                    marginBottom: 8,
+                  }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ fontSize: 12, color: '#5a5a62', letterSpacing: 2 }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="reveal" style={{
+              marginTop: 40,
+              padding: 24,
+              background: '#0e0e14',
+              border: '1px solid #1e1e2a',
+              borderRadius: 16,
+            }}>
+              <p style={{ fontSize: 12, color: '#5a5a62', letterSpacing: 2, marginBottom: 12 }}>
+                教育背景
+              </p>
+              <p style={{ fontSize: 15, color: '#c8c4bc' }}>
+                {portfolio.education}
+              </p>
+              <p style={{ fontSize: 13, color: '#88808a', marginTop: 8 }}>
+              湖南长沙 · 1989
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
