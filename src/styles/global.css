@@ -1,0 +1,156 @@
+/* ==========================================
+   THEME CSS VARIABLES
+   ========================================== */
+:root {
+  /* ------ Accent ------ */
+  --accent: #3b82f6;
+  --accent-light: #60a5fa;
+  --accent-dark: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.25);
+
+  /* ------ Transitions ------ */
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   DARK THEME (default)
+   ========================================== */
+[data-theme='dark'] {
+  --bg-primary: #07070a;
+  --bg-secondary: #0e0e14;
+  --bg-card: #13131c;
+  --bg-card-hover: #1a1a28;
+  --bg-overlay: rgba(7, 7, 10, 0.8);
+
+  --text-primary: #f0f0f5;
+  --text-secondary: #9090a8;
+  --text-muted: #5a5a70;
+
+  --border: rgba(59, 130, 246, 0.08);
+  --border-hover: rgba(59, 130, 246, 0.2);
+
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================
+   LIGHT THEME
+   ========================================== */
+[data-theme='light'] {
+  --bg-primary: #f8f8fc;
+  --bg-secondary: #eeeef4;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f0f8;
+  --bg-overlay: rgba(248, 248, 252, 0.85);
+
+  --text-primary: #0a0a14;
+  --text-secondary: #5a5a72;
+  --text-muted: #9a9ab0;
+
+  --border: rgba(59, 130, 246, 0.1);
+  --border-hover: rgba(59, 130, 246, 0.25);
+
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   GLOBAL RESET & BASE
+   ========================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ==========================================
+   UTILITY
+   ========================================== */
+.container {
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.section__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.section__title {
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.section__desc {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* ==========================================
+   SCROLL REVEAL
+   ========================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 1200px) {
+  .container { padding: 0 32px; }
+  .section { padding: 80px 0; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .section { padding: 60px 0; }
+}
