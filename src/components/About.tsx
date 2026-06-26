@@ -1,80 +1,125 @@
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { portfolio } from '../data/portfolio';
-import './About.css';
+import { motion } from 'framer-motion'
+import { portfolio } from '../data/portfolio'
 
 export default function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   return (
-    <section className="section about" id="about" ref={ref}>
-      <div className="container">
-        <div className="about__grid">
-          {/* Left: Avatar + Info */}
-          <div
-            className="about__left"
-            style={{
-              opacity: isInView ? 1 : 0,
-              transform: isInView ? 'translateY(0)' : 'translateY(40px)',
-              transition: 'all 0.7s cubic-bezier(0.16,1,0.3,1)',
-            }}
-          >
-            <div className="about__avatar-wrapper">
-              <div className="about__avatar">
-                <span className="about__avatar-text">
-                  {portfolio.name[0]}
-                </span>
-              </div>
-              <div className="about__avatar-ring" />
-            </div>
-            <h3 className="about__name">{portfolio.name}</h3>
-            <p className="about__role">{portfolio.role}</p>
+    <div className="section-inner" style={{ padding: '0 60px' }}>
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6 }}
+        style={{
+          fontSize: 'clamp(28px, 3vw, 48px)',
+          fontWeight: 300,
+          letterSpacing: 4,
+          marginBottom: 60,
+          color: '#8a8a92',
+        }}
+      >
+        <span style={{ color: '#b85a3a', fontWeight: 700 }}>about</span> / 关于我
+      </motion.h2>
 
-            <div className="about__socials">
-              {portfolio.socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href || '#'}
-                  className="about__social-item"
-                  {...(s.href ? { target: '_blank', rel: 'noopener' } : {})}
-                >
-                  <span className="about__social-label">{s.label}</span>
-                  <span className="about__social-value">{s.value}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Right: Bio + Stats */}
-          <div
-            className="about__right"
-            style={{
-              opacity: isInView ? 1 : 0,
-              transform: isInView ? 'translateY(0)' : 'translateY(40px)',
-              transition: 'all 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s',
-            }}
-          >
-            <p className="section__label">关于我</p>
-            <h2 className="section__title">幕后到台前<br />从传统到未来</h2>
-
-            <div className="about__bio">
-              {portfolio.bio.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-
-            <div className="about__stats">
-              {portfolio.stats.map((stat) => (
-                <div key={stat.label} className="about__stat">
-                  <span className="about__stat-value">{stat.value}</span>
-                  <span className="about__stat-label">{stat.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 80,
+        alignItems: 'start',
+        maxWidth: 1200,
+      }}>
+        {/* Bio text */}
+        <div>
+          {portfolio.bio.map((p, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.15 }}
+              style={{
+                color: '#c8c6c3',
+                fontSize: 15,
+                lineHeight: 1.9,
+                marginBottom: 20,
+                fontWeight: i === 0 ? 400 : 300,
+              }}
+            >
+              {p}
+            </motion.p>
+          ))}
         </div>
+
+        {/* Stats grid */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 24,
+          }}
+        >
+          {portfolio.stats.map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+              style={{
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.04)',
+                borderRadius: 16,
+                padding: '28px 24px',
+                textAlign: 'center',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <div style={{ fontSize: 36, fontWeight: 900, color: '#b85a3a', marginBottom: 8 }}>
+                {stat.value}
+              </div>
+              <div style={{ fontSize: 12, color: '#6a6a72', letterSpacing: 2 }}>
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-    </section>
-  );
+
+      {/* Social links */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        style={{
+          display: 'flex',
+          gap: 24,
+          marginTop: 60,
+          paddingTop: 40,
+          borderTop: '1px solid rgba(255,255,255,0.04)',
+        }}
+      >
+        {portfolio.socials.map((s, i) => (
+          <a
+            key={i}
+            href={s.href || '#'}
+            target={s.href ? '_blank' : undefined}
+            rel="noreferrer"
+            style={{
+              color: '#6a6a72',
+              fontSize: 13,
+              letterSpacing: 1,
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+          >
+            {s.label} / {s.value}
+          </a>
+        ))}
+      </motion.div>
+    </div>
+  )
 }

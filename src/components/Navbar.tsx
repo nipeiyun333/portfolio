@@ -1,75 +1,95 @@
-import { useEffect, useState } from 'react';
-import { portfolio } from '../data/portfolio';
-import './Navbar.css';
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
-interface NavbarProps {
-  theme: 'dark' | 'light';
-  onToggleTheme: () => void;
-}
-
-const navItems = [
-  { label: '首页', href: '#hero' },
-  { label: '关于', href: '#about' },
-  { label: '项目', href: '#projects' },
-  { label: '能力', href: '#strengths' },
-  { label: '联系', href: '#contact' },
-];
-
-export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState('hero')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 80)
+      const sections = ['hero', 'about', 'timeline', 'projects', 'strengths', 'contact']
+      for (const id of sections.reverse()) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.5) {
+          setActive(id)
+          break
+        }
+      }
+    }
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const links = [
+    { id: 'hero', label: '首页' },
+    { id: 'about', label: '关于' },
+    { id: 'timeline', label: '履历' },
+    { id: 'projects', label: '项目' },
+    { id: 'strengths', label: '能力' },
+    { id: 'contact', label: '联系' },
+  ]
 
   return (
-    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
-      <div className="navbar__inner container">
-        <a href="#hero" className="navbar__logo">
-          {portfolio.name.split('').map((ch, i) =>
-            i === 1 ? <span key={i} className="navbar__logo-accent">{ch}</span> : ch
-          )}
-        </a>
+    <motion.nav
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        padding: scrolled ? '12px 40px' : '20px 40px',
+        background: scrolled ? 'rgba(8,8,12,0.85)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.04)' : 'none',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        transition: 'all 0.3s ease',
+      }}
+    >
+      <span
+        onClick={() => scrollTo('hero')}
+        style={{
+          fontSize: 18,
+          fontWeight: 700,
+          letterSpacing: 4,
+          color: '#b85a3a',
+          cursor: 'pointer',
+        }}
+      >
+        不止于综艺
+      </span>
 
-        <ul className={`navbar__links${mobileOpen ? ' navbar__links--open' : ''}`}>
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <a href={item.href} onClick={() => setMobileOpen(false)}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-          <li>
-            <button
-              className="navbar__theme-btn"
-              onClick={onToggleTheme}
-              aria-label="切换主题"
-            >
-              {theme === 'dark' ? (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="5" />
-                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                </svg>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                </svg>
-              )}
-            </button>
-          </li>
-        </ul>
-
-        <button
-          className={`navbar__hamburger${mobileOpen ? ' navbar__hamburger--open' : ''}`}
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="菜单"
-        >
-          <span /><span /><span />
-        </button>
+      <div style={{ display: 'flex', gap: 32 }}>
+        {links.map(l => (
+          <button
+            key={l.id}
+            onClick={() => scrollTo(l.id)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: active === l.id ? '#e8e6e3' : '#6a6a72',
+              fontSize: 13,
+              fontWeight: active === l.id ? 500 : 400,
+              letterSpacing: 1,
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+              padding: 0,
+              fontFamily: 'inherit',
+            }}
+          >
+            {l.label}
+          </button>
+        ))}
       </div>
-    </nav>
-  );
+    </motion.nav>
+  )
 }
