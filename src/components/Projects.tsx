@@ -1,6 +1,8 @@
 import { portfolio } from '../data/portfolio'
 
 export default function Projects() {
+  const baseUrl = (import.meta as any).env?.BASE_URL || '/portfolio/'
+
   return (
     <section id="projects" className="section">
       <div className="container">
@@ -61,7 +63,7 @@ export default function Projects() {
               }}>
                 {project.logo ? (
                   <img
-                    src={`/src/assets/${project.logo}`}
+                    src={`${baseUrl}assets/${project.logo}`}
                     alt={project.title}
                     style={{
                       width: '100%',

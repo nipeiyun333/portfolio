@@ -1,6 +1,8 @@
 import { portfolio } from '../data/portfolio'
 
 export default function Hero() {
+  const baseUrl = (import.meta as any).env?.BASE_URL || '/portfolio/'
+
   return (
     <section style={{
       minHeight: '100vh',
@@ -17,7 +19,7 @@ export default function Hero() {
         position: 'absolute', inset: 0, zIndex: 0,
       }}>
         <img
-          src="/src/assets/hero-bg.png"
+          src={`${baseUrl}assets/hero-bg.png`}
           alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }}
         />
